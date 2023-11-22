@@ -7,6 +7,7 @@ import * as bcrypt from 'bcrypt';
 import { Sensor } from '../sensor/sensor.model';
 import { JwtService } from '@nestjs/jwt';
 import { SignInResultDto } from './dtos/sign-in-result.dto';
+import { JwtPayloadDto } from './dtos/jwt-payload.dto';
 
 @Injectable()
 export class AuthService {
@@ -47,7 +48,7 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    const payload = {
+    const payload: JwtPayloadDto = {
       sub: sensor.resourceIdentifier,
       iat: Date.now(),
     };
