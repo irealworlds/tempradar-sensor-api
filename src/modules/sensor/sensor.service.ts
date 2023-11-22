@@ -1,0 +1,77 @@
+import { Injectable } from '@nestjs/common';
+import { Model } from 'mongoose';
+import { Sensor } from './sensor.model';
+import { InjectModel } from '@nestjs/mongoose';
+import { SensorCreateDto } from '../../dtos/sensor-create.dto';
+import { ResourceIdentifierService } from '../../core/resource-identifiers/resource-identifier.service';
+import * as bcrypt from 'bcrypt';
+
+@Injectable()
+export class SensorService {
+  constructor(
+    @InjectModel(Sensor.name) private readonly _sensorModel: Model<Sensor>,
+    private readonly _resourceIdentifierService: ResourceIdentifierService,
+  ) {}
+
+  /**
+   * Fetch all sensor data.
+   *
+   * @returns {Promise<Sensor[]>} - A promise that resolves to an array of Sensor objects.
+   */
+  async fetchAll(): Promise<Sensor[]> {
+    return this._sensorModel
+      .find()
+      .sort({
+        createdAt: -1,
+      })
+      .exec();
+  }
+
+  /**
+   * Fetches a sensor by its MAC address.
+   *
+   * @param {string} macAddress - The MAC address of the sensor.
+   * @return {Promise<Sensor>} - Resolves with the found sensor, or undefined if no sensor exists with the given MAC address.
+   */
+  async fetchByMacAddress(macAddress: string): Promise<Sensor> {
+    return await this._sensorModel
+      .findOne({
+        macAddress,
+      })
+      .exec();
+  }
+
+  /**
+   * Fetches a sensor by its MAC address.
+   *
+   * @param {string} resourceIdentifier - The sensor's resource identifier.
+   * @return {Promise<Sensor>} - Resolves with the found sensor, or undefined if no sensor exists with the given MAC address.
+   */
+  async fetchByIdentifier(resourceIdentifier: string): Promise<Sensor> {
+    return await this._sensorModel
+      .findOne({
+        resourceIdentifier,
+      })
+      .exec();
+  }
+
+  /**
+   * Create a new sensor.
+   *
+   * @param {SensorCreateDto} data - The data for creating the sensor.
+   * @returns {Promise<Sensor>} A Promise that resolves with the created sensor.
+   */
+  async create(data: SensorCreateDto): Promise<Sensor> {
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash(data.password, salt);
+
+    const sensor = new this._sensorModel({
+      name: data.name,
+      macAddress: data.macAddress,
+      passwordHash: passwordHash,
+      resourceIdentifier:
+        this._resourceIdentifierService.generateUniqueId('sensor'),
+    });
+    return sensor.save();
+  }
+}

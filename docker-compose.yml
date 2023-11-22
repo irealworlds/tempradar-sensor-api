@@ -1,0 +1,38 @@
+name: tempradar-sensor
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - ./.env
+    environment:
+      - DB_CONNECTION_STRING=mongodb://tempradar:tempradar@mongodb:27017/tempradar
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
+    networks:
+      - tempradar
+
+  mongodb:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: tempradar
+      TZ: "Europe/Bucharest"
+    networks:
+      - tempradar
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+      - ./database/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js # Mount the initialization script
+
+volumes:
+  mongodb_data_container:
+
+networks:
+  tempradar:
+    driver: bridge
