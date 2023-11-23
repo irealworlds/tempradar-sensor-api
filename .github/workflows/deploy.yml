@@ -1,0 +1,15 @@
+name: Deploy
+on:
+  workflow_run:
+    workflows: ["Build and Publish Docker Image"]
+    branches: [master]
+    types:
+      - completed
+jobs:
+  trigger-circleci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger CircleCI pipeline
+        uses: circleci/trigger_circleci_pipeline@v1.0
+        env:
+          CCI_TOKEN: ${{ secrets.circleci_api_token }}
