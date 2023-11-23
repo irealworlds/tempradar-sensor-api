@@ -19,7 +19,6 @@ jobs:
   pull-and-build:
     docker:
       - image: arvindr226/alpine-ssh
-    when: << pipeline.parameters.GHA_Action >>
     steps:
       - checkout
       - run: ssh -oStrictHostKeyChecking=no -v $USER@$IP "./deploy.sh"
@@ -28,6 +27,7 @@ jobs:
 workflows:
   version: 2
   build-project:
+    when: << pipeline.parameters.GHA_Action >>
     jobs:
       - pull-and-build:
           filters:
