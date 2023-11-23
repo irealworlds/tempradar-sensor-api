@@ -1,6 +1,6 @@
 import { HydratedDocument } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { IRoutableResource } from '../../core/resource-identifiers/routable-resource.contract';
+import { IRoutableResource } from '@app/core/resource-identifiers/routable-resource.contract';
 
 export type SensorDocument = HydratedDocument<Sensor>;
 

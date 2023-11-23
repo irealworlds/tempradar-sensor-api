@@ -1,17 +1,14 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ExtractJwt } from 'passport-jwt';
 import { Request } from 'express';
-import { JwtPayloadDto } from './jwt/dtos/jwt-payload.dto';
-import { Sensor, SensorDocument } from '../../modules/sensor/sensor.model';
-import { SensorService } from '../../modules/sensor/sensor.service';
-import { TJwtAuthSubject } from './jwt/types/jwt-auth-subject.type';
-import {
-  ApiConsumer,
-  ApiConsumerDocument,
-} from './api-keys/models/api-consumer.model';
-import { apiKeyOptions } from './api-keys/constants/api-key-options.constant';
-import { ApiKeyService } from './api-keys/services/api-key.service';
+import { JwtPayloadDto } from '@app/core/auth/jwt/dtos/jwt-payload.dto';
+import { Sensor, SensorDocument } from '@app/modules/sensor/sensor.model';
+import { SensorService } from '@app/modules/sensor/sensor.service';
+import { TJwtAuthSubject } from '@app/core/auth/jwt/types/jwt-auth-subject.type';
+import { ApiConsumerDocument } from '@app/core/auth/api-keys/models/api-consumer.model';
+import { apiKeyOptions } from '@app/core/auth/api-keys/constants/api-key-options.constant';
+import { ApiKeyService } from '@app/core/auth/api-keys/services/api-key.service';
 
 @Injectable()
 export class AuthService {

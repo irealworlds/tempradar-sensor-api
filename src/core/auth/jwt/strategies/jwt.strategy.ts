@@ -1,8 +1,8 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { jwtOptions } from '../constants/jwt-options.constant';
-import { Sensor } from '../../../../modules/sensor/sensor.model';
-import { JwtPayloadDto } from '../dtos/jwt-payload.dto';
+import { jwtOptions } from '@app/core/auth/jwt/constants/jwt-options.constant';
+import { Sensor } from '@app/modules/sensor/sensor.model';
+import { JwtPayloadDto } from '@app/core/auth/jwt/dtos/jwt-payload.dto';
 
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {

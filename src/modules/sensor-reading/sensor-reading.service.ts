@@ -1,14 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { ResourceIdentifierService } from '../../core/resource-identifiers/resource-identifier.service';
+import { ResourceIdentifierService } from '@app/core/resource-identifiers/resource-identifier.service';
 import {
   SensorReading,
   SensorReadingDocument,
-} from './models/sensor-reading.model';
-import { SensorService } from '../sensor/sensor.service';
-import { Sensor } from '../sensor/sensor.model';
-import { CreateSensorReadingDto } from './dtos/create-sensor-reading.dto';
+} from '@app/modules/sensor-reading/models/sensor-reading.model';
+import { Sensor } from '@app/modules/sensor/sensor.model';
+import { CreateSensorReadingDto } from '@app/modules/sensor-reading/dtos/create-sensor-reading.dto';
 
 @Injectable()
 export class SensorReadingService {
@@ -16,7 +15,6 @@ export class SensorReadingService {
     @InjectModel(SensorReading.name)
     private readonly _readingModel: Model<SensorReading>,
     private readonly _resourceIdentifierService: ResourceIdentifierService,
-    private readonly _sensorService: SensorService,
   ) {}
 
   /**

@@ -1,7 +1,7 @@
 import { MongoAbility } from '@casl/ability';
-import { AbstractPolicyHandler } from '../../policy-handler.type';
-import { CrudAction } from '../../../casl/enums/action.enum';
-import { SensorReading } from '../../../../modules/sensor-reading/models/sensor-reading.model';
+import { AbstractPolicyHandler } from '@app/core/authorization/policy-handler.type';
+import { CrudAction } from '@app/core/casl/enums/action.enum';
+import { SensorReading } from '@app/modules/sensor-reading/models/sensor-reading.model';
 
 export class CanReadSensorReadings extends AbstractPolicyHandler {
   /** @inheritDoc */

@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ApiKeyService } from './api-key.service';
+import { ApiKeyService } from '@app/core/auth/api-keys/services/api-key.service';
 
 describe('ApiKeyService', () => {
   let service: ApiKeyService;

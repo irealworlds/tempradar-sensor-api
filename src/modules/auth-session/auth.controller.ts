@@ -1,7 +1,7 @@
 import { Body, Controller, NotFoundException, Post } from '@nestjs/common';
-import { AuthSessionsCreateDto } from './dtos/auth-sessions-create.dto';
-import { SensorService } from '../sensor/sensor.service';
-import { JwtAuthService } from '../../core/auth/jwt/services/jwt-auth.service';
+import { AuthSessionsCreateDto } from '@app/modules/auth-session/dtos/auth-sessions-create.dto';
+import { SensorService } from '@app/modules/sensor/sensor.service';
+import { JwtAuthService } from '@app/core/auth/jwt/services/jwt-auth.service';
 
 @Controller('auth')
 export class AuthController {

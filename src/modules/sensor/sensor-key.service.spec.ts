@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SensorKeyService } from './sensor-key.service';
+import { SensorKeyService } from '@app/modules/sensor/sensor-key.service';
 
 describe('SensorKeyService', () => {
   let service: SensorKeyService;

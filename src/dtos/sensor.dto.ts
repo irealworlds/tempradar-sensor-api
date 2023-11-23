@@ -1,4 +1,4 @@
-import { Sensor } from '../modules/sensor/sensor.model';
+import { Sensor } from '@app/modules/sensor/sensor.model';
 
 export class SensorDto {
   resourceIdentifier: string;

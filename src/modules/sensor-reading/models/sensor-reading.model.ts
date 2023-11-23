@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 import * as mongoose from 'mongoose';
-import { Sensor } from '../../sensor/sensor.model';
+import { Sensor } from '@app/modules/sensor/sensor.model';
 
 export type SensorReadingDocument = HydratedDocument<SensorReading>;
 

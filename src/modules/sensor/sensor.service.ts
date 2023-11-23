@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { Sensor, SensorDocument } from './sensor.model';
+import { Sensor, SensorDocument } from '@app/modules/sensor/sensor.model';
 import { InjectModel } from '@nestjs/mongoose';
-import { SensorCreateDto } from '../../dtos/sensor-create.dto';
-import { ResourceIdentifierService } from '../../core/resource-identifiers/resource-identifier.service';
+import { SensorCreateDto } from '@app/dtos/sensor-create.dto';
+import { ResourceIdentifierService } from '@app/core/resource-identifiers/resource-identifier.service';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()

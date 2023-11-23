@@ -4,12 +4,15 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { CaslAbilityFactory } from '../../casl/casl-ability.factory';
+import { CaslAbilityFactory } from '@app/core/casl/casl-ability.factory';
 import { ModuleRef, Reflector } from '@nestjs/core';
-import { AbstractPolicyHandler, PolicyHandler } from '../policy-handler.type';
-import { CHECK_POLICIES_KEY } from '../check-policies.decorator';
+import {
+  AbstractPolicyHandler,
+  PolicyHandler,
+} from '@app/core/authorization/policy-handler.type';
+import { CHECK_POLICIES_KEY } from '@app/core/authorization/check-policies.decorator';
 import { MongoAbility } from '@casl/ability';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '@app/core/auth/auth.service';
 import { Request } from 'express';
 
 @Injectable()

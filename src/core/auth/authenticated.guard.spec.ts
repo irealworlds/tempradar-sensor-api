@@ -1,4 +1,4 @@
-import { AuthenticatedGuard } from './authenticated.guard';
+import { AuthenticatedGuard } from '@app/core/auth/authenticated.guard';
 
 describe('AuthGuard', () => {
   it('should be defined', () => {

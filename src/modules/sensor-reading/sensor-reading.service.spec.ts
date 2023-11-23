@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SensorReadingService } from './sensor-reading.service';
+import { SensorReadingService } from '@app/modules/sensor-reading/sensor-reading.service';
 
 describe('SensorReadingService', () => {
   let service: SensorReadingService;

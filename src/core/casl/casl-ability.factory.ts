@@ -5,16 +5,16 @@ import {
   createMongoAbility,
   MongoAbility,
 } from '@casl/ability';
-import { JwtPayloadDto } from '../auth/jwt/dtos/jwt-payload.dto';
-import { Sensor, SensorDocument } from '../../modules/sensor/sensor.model';
-import { SensorService } from '../../modules/sensor/sensor.service';
+import { JwtPayloadDto } from '@app/core/auth/jwt/dtos/jwt-payload.dto';
+import { Sensor, SensorDocument } from '@app/modules/sensor/sensor.model';
+import { SensorService } from '@app/modules/sensor/sensor.service';
 import { Document } from 'mongoose';
-import { CrudAction, SensorAction } from './enums/action.enum';
-import { SensorReading } from '../../modules/sensor-reading/models/sensor-reading.model';
+import { CrudAction, SensorAction } from '@app/core/casl/enums/action.enum';
+import { SensorReading } from '@app/modules/sensor-reading/models/sensor-reading.model';
 import {
   ApiConsumer,
   ApiConsumerDocument,
-} from '../auth/api-keys/models/api-consumer.model';
+} from '@app/core/auth/api-keys/models/api-consumer.model';
 
 @Injectable()
 export class CaslAbilityFactory {

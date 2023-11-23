@@ -10,15 +10,15 @@ import {
   Request,
   ForbiddenException,
 } from '@nestjs/common';
-import { SensorService } from '../sensor/sensor.service';
-import { SensorReadingService } from './sensor-reading.service';
-import { SensorReadingDto } from './dtos/sensor-reading.dto';
-import { CreateSensorReadingDto } from './dtos/create-sensor-reading.dto';
-import { CaslAbilityFactory } from '../../core/casl/casl-ability.factory';
-import { SensorAction } from '../../core/casl/enums/action.enum';
-import { CanReadSensorReadings } from '../../core/authorization/policies/sensor-reading/can-read-sensor-readings.policy';
-import { CheckPolicies } from '../../core/authorization/check-policies.decorator';
-import { AuthenticatedGuard } from '../../core/auth/authenticated.guard';
+import { SensorService } from '@app/modules/sensor/sensor.service';
+import { SensorReadingService } from '@app/modules/sensor-reading/sensor-reading.service';
+import { SensorReadingDto } from '@app/modules/sensor-reading/dtos/sensor-reading.dto';
+import { CreateSensorReadingDto } from '@app/modules/sensor-reading/dtos/create-sensor-reading.dto';
+import { CaslAbilityFactory } from '@app/core/casl/casl-ability.factory';
+import { SensorAction } from '@app/core/casl/enums/action.enum';
+import { CanReadSensorReadings } from '@app/core/authorization/policies/sensor-reading/can-read-sensor-readings.policy';
+import { CheckPolicies } from '@app/core/authorization/check-policies.decorator';
+import { AuthenticatedGuard } from '@app/core/auth/authenticated.guard';
 
 @Controller('sensors')
 export class SensorReadingController {

@@ -1,3 +1,3 @@
-import { SensorDocument } from '../../../../modules/sensor/sensor.model';
+import { SensorDocument } from '@app/modules/sensor/sensor.model';
 
 export type TJwtAuthSubject = SensorDocument;

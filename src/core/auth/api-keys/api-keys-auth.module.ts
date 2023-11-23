@@ -1,10 +1,13 @@
 import { Module } from '@nestjs/common';
-import { ApiKeyService } from './services/api-key.service';
+import { ApiKeyService } from '@app/core/auth/api-keys/services/api-key.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ApiConsumer, ApiConsumerSchema } from './models/api-consumer.model';
+import {
+  ApiConsumer,
+  ApiConsumerSchema,
+} from '@app/core/auth/api-keys/models/api-consumer.model';
 import { PassportModule } from '@nestjs/passport';
-import { ApiKeyStrategy } from './strategies/api-key.strategy';
-import { ResourceIdentifiersModule } from '../../resource-identifiers/resource-identifiers.module';
+import { ApiKeyStrategy } from '@app/core/auth/api-keys/strategies/api-key.strategy';
+import { ResourceIdentifiersModule } from '@app/core/resource-identifiers/resource-identifiers.module';
 
 @Module({
   imports: [

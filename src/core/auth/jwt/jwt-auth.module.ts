@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { JwtAuthService } from './services/jwt-auth.service';
+import { JwtAuthService } from '@app/core/auth/jwt/services/jwt-auth.service';
 import { JwtModule } from '@nestjs/jwt';
-import { jwtOptions } from './constants/jwt-options.constant';
-import { SensorModule } from '../../../modules/sensor/sensor.module';
+import { jwtOptions } from '@app/core/auth/jwt/constants/jwt-options.constant';
+import { SensorModule } from '@app/modules/sensor/sensor.module';
 import { PassportModule } from '@nestjs/passport';
-import { JwtStrategy } from './strategies/jwt.strategy';
+import { JwtStrategy } from '@app/core/auth/jwt/strategies/jwt.strategy';
 
 @Module({
   providers: [JwtAuthService, JwtStrategy],

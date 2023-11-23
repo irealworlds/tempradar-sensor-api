@@ -1,10 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
-import { Sensor } from '../../../../modules/sensor/sensor.model';
+import { Sensor } from '@app/modules/sensor/sensor.model';
 import { JwtService } from '@nestjs/jwt';
-import { JwtAuthSessionDto } from '../dtos/jwt-auth-session.dto';
-import { JwtPayloadDto } from '../dtos/jwt-payload.dto';
-import { SensorService } from '../../../../modules/sensor/sensor.service';
+import { JwtAuthSessionDto } from '@app/core/auth/jwt/dtos/jwt-auth-session.dto';
+import { JwtPayloadDto } from '@app/core/auth/jwt/dtos/jwt-payload.dto';
+import { SensorService } from '@app/modules/sensor/sensor.service';
 
 @Injectable()
 export class JwtAuthService {
@@ -34,7 +33,7 @@ export class JwtAuthService {
       throw new UnauthorizedException();
     }
 
-    const payload: JwtPayloadDto = this._generateJwtPayload(sensor);
+    const payload = this._generateJwtPayload(sensor);
 
     return {
       subject: payload.sub,
@@ -48,7 +47,7 @@ export class JwtAuthService {
    * @param {Sensor} sensor - The sensor object to generate the payload for.
    * @returns {Object} - The payload object for the JWT.
    */
-  private _generateJwtPayload(sensor: Sensor) {
+  private _generateJwtPayload(sensor: Sensor): JwtPayloadDto {
     return {
       sub: sensor.resourceIdentifier,
       subType: Sensor.name,

@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
-import { SensorReadingController } from './sensor-reading.controller';
-import { SensorReadingService } from './sensor-reading.service';
+import { SensorReadingController } from '@app/modules/sensor-reading/sensor-reading.controller';
+import { SensorReadingService } from '@app/modules/sensor-reading/sensor-reading.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { SensorModule } from '../sensor/sensor.module';
+import { SensorModule } from '@app/modules/sensor/sensor.module';
 import {
   SensorReading,
   SensorReadingSchema,
-} from './models/sensor-reading.model';
-import { ResourceIdentifiersModule } from '../../core/resource-identifiers/resource-identifiers.module';
-import { CaslModule } from '../../core/casl/casl.module';
+} from '@app/modules/sensor-reading/models/sensor-reading.model';
+import { ResourceIdentifiersModule } from '@app/core/resource-identifiers/resource-identifiers.module';
+import { CaslModule } from '@app/core/casl/casl.module';
 
 @Module({
   controllers: [SensorReadingController],

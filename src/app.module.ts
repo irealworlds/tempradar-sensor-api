@@ -1,15 +1,15 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AppController } from '@app/app.controller';
+import { AppService } from '@app/app.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { SensorModule } from './modules/sensor/sensor.module';
+import { SensorModule } from '@app/modules/sensor/sensor.module';
 import { ConfigModule } from '@nestjs/config';
-import { ResourceIdentifiersModule } from './core/resource-identifiers/resource-identifiers.module';
-import { SensorReadingModule } from './modules/sensor-reading/sensor-reading.module';
-import { CaslModule } from './core/casl/casl.module';
-import { AuthModule } from './core/auth/auth.module';
-import { AuthSessionModule } from './modules/auth-session/auth-session.module';
-import { PoliciesGuard } from './core/authorization/guards/policies.guard';
+import { ResourceIdentifiersModule } from '@app/core/resource-identifiers/resource-identifiers.module';
+import { SensorReadingModule } from '@app/modules/sensor-reading/sensor-reading.module';
+import { CaslModule } from '@app/core/casl/casl.module';
+import { AuthModule } from '@app/core/auth/auth.module';
+import { AuthSessionModule } from '@app/modules/auth-session/auth-session.module';
+import { PoliciesGuard } from '@app/core/authorization/guards/policies.guard';
 import { APP_GUARD } from '@nestjs/core';
 
 @Module({

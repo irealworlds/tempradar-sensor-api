@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ResourceIdentifierService } from './resource-identifier.service';
+import { ResourceIdentifierService } from '@app/core/resource-identifiers/resource-identifier.service';
 
 describe('ResourceIdentifierService', () => {
   let service: ResourceIdentifierService;

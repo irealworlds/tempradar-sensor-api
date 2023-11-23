@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { CaslAbilityFactory } from './casl-ability.factory';
-import { SensorModule } from '../../modules/sensor/sensor.module';
-import { ApiKeysAuthModule } from '../auth/api-keys/api-keys-auth.module';
+import { CaslAbilityFactory } from '@app/core/casl/casl-ability.factory';
+import { SensorModule } from '@app/modules/sensor/sensor.module';
+import { ApiKeysAuthModule } from '@app/core/auth/api-keys/api-keys-auth.module';
 
 @Module({
   imports: [SensorModule, ApiKeysAuthModule],

@@ -1,7 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber } from 'class-validator';
-import { Sensor } from '../../sensor/sensor.model';
-import { SensorReading } from '../models/sensor-reading.model';
+import { SensorReading } from '@app/modules/sensor-reading/models/sensor-reading.model';
 
 export class SensorReadingDto {
   resourceIdentifier: string;

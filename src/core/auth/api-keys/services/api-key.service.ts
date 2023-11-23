@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { ApiConsumer, ApiConsumerDocument } from '../models/api-consumer.model';
+import {
+  ApiConsumer,
+  ApiConsumerDocument,
+} from '@app/core/auth/api-keys/models/api-consumer.model';
 import * as crypto from 'crypto';
-import { ResourceIdentifierService } from '../../../resource-identifiers/resource-identifier.service';
+import { ResourceIdentifierService } from '@app/core/resource-identifiers/resource-identifier.service';
 
 @Injectable()
 export class ApiKeyService {
