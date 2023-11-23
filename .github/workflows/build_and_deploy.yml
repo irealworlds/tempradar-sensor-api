@@ -30,7 +30,11 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    needs:
+      - docker
     steps:
       - name: Trigger CircleCI Pipeline
         uses: CircleCI-Public/trigger-circleci-pipeline-action@v1.1.0
+        env:
+          CCI_TOKEN: ${{ secrets.CIRCLECI_API_TOKEN }}
 
