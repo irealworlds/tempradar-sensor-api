@@ -10,6 +10,7 @@ import {
   Request,
   ForbiddenException,
   Query,
+  HttpCode,
 } from '@nestjs/common';
 import { SensorService } from '@app/modules/sensor/sensor.service';
 import { SensorReadingService } from '@app/modules/sensor-reading/sensor-reading.service';
@@ -80,6 +81,7 @@ export class SensorReadingController {
    */
   @UseGuards(AuthenticatedGuard)
   @Post(':sensorId/readings')
+  @HttpCode(201)
   public async createAsync(
     @Param() params: { sensorId: string },
     @Body() data: CreateSensorReadingDto,

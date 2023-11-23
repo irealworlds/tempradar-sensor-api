@@ -61,7 +61,7 @@ export class CaslAbilityFactory {
   }
 
   createForSensor(sensor: SensorDocument): MongoAbility {
-    const { can, cannot, build } = new AbilityBuilder(createMongoAbility);
+    const { can, build } = new AbilityBuilder(createMongoAbility);
 
     can(SensorAction.CreateReading, Sensor.name, {
       resourceIdentifier: sensor.resourceIdentifier,

@@ -1,4 +1,10 @@
-import { Body, Controller, NotFoundException, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  NotFoundException,
+  Post,
+} from '@nestjs/common';
 import { AuthSessionsCreateDto } from '@app/modules/auth-session/dtos/auth-sessions-create.dto';
 import { SensorService } from '@app/modules/sensor/sensor.service';
 import { JwtAuthService } from '@app/core/auth/jwt/services/jwt-auth.service';
@@ -18,6 +24,7 @@ export class AuthController {
    * @throws {NotFoundException} - If the sensor is not found.
    */
   @Post('/sessions')
+  @HttpCode(201)
   async signIn(@Body() data: AuthSessionsCreateDto): Promise<any> {
     const sensor = await this._sensorService.fetchByMacAddress(data.macAddress);
 
