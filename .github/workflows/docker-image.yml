@@ -25,4 +25,4 @@ jobs:
       run: docker build . --file Dockerfile --tag irealworlds/tempradar-sensor-api:$(date +%s)
 
     - name: Push to Dockerhub
-      run: docker push ${{secrets.docker_user}}/tempradar-sensor-api
+      run: docker push ${{secrets.docker_user}}/tempradar-sensor-api:$(date +%s)
