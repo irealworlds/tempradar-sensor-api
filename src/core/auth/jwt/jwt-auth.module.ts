@@ -8,7 +8,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   providers: [JwtAuthService, JwtStrategy],
-  exports: [JwtAuthService, JwtStrategy],
+  exports: [JwtAuthService, JwtStrategy, JwtModule],
   imports: [
     PassportModule,
     JwtModule.register({

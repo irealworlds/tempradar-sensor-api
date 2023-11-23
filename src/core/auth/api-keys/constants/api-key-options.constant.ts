@@ -1,4 +1,4 @@
 export const apiKeyOptions = {
   strategyName: 'api-key',
-  headerName: 'api-key',
+  headerName: 'x-api-key',
 };

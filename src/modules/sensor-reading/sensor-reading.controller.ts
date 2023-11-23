@@ -14,9 +14,11 @@ import { SensorService } from '../sensor/sensor.service';
 import { SensorReadingService } from './sensor-reading.service';
 import { SensorReadingDto } from './dtos/sensor-reading.dto';
 import { CreateSensorReadingDto } from './dtos/create-sensor-reading.dto';
-import { AuthenticatedWithJwtGuard } from '../../core/auth/jwt/guards/authenticated-with-jwt.guard';
 import { CaslAbilityFactory } from '../../core/casl/casl-ability.factory';
 import { SensorAction } from '../../core/casl/enums/action.enum';
+import { CanReadSensorReadings } from '../../core/authorization/policies/sensor-reading/can-read-sensor-readings.policy';
+import { CheckPolicies } from '../../core/authorization/check-policies.decorator';
+import { AuthenticatedGuard } from '../../core/auth/authenticated.guard';
 
 @Controller('sensors')
 export class SensorReadingController {
@@ -37,6 +39,8 @@ export class SensorReadingController {
    * @throws {NotFoundException} If the sensor with the given identifier does not exist.
    */
   @Get(':sensorId/readings')
+  @UseGuards(AuthenticatedGuard)
+  @CheckPolicies(CanReadSensorReadings)
   public async indexAsync(
     @Param() params: { sensorId: string },
   ): Promise<SensorReadingDto[]> {
@@ -69,14 +73,13 @@ export class SensorReadingController {
    * @throws {NotFoundException} If the sensor ID is not found.
    * @throws {ForbiddenException} If the user does not have the permission to create a reading for the sensor.
    */
-  @UseGuards(AuthenticatedWithJwtGuard)
+  @UseGuards(AuthenticatedGuard)
   @Post(':sensorId/readings')
   public async createAsync(
     @Param() params: { sensorId: string },
     @Body() data: CreateSensorReadingDto,
     @Req() request: Request,
   ): Promise<SensorReadingDto> {
-    return data as any;
     if (!('sensorId' in params)) {
       throw new NotFoundException();
     }
@@ -86,9 +89,9 @@ export class SensorReadingController {
       throw new NotFoundException();
     }
 
-    const abilities = await this._abilityFactory.createForAuthPayload(
-      request['authSubject'],
-    );
+    const { authSubject } = request as any;
+    const abilities =
+      await this._abilityFactory.createForJwtAuthPayload(authSubject);
     if (abilities.cannot(SensorAction.CreateReading, sensor)) {
       throw new ForbiddenException();
     }

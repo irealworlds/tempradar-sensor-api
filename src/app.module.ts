@@ -9,6 +9,8 @@ import { SensorReadingModule } from './modules/sensor-reading/sensor-reading.mod
 import { CaslModule } from './core/casl/casl.module';
 import { AuthModule } from './core/auth/auth.module';
 import { AuthSessionModule } from './modules/auth-session/auth-session.module';
+import { PoliciesGuard } from './core/authorization/guards/policies.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -22,6 +24,12 @@ import { AuthSessionModule } from './modules/auth-session/auth-session.module';
     AuthSessionModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: PoliciesGuard,
+    },
+  ],
 })
 export class AppModule {}

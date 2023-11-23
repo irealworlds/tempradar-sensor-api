@@ -42,6 +42,12 @@ export class JwtAuthService {
     };
   }
 
+  /**
+   * Generates the payload for a JSON Web Token (JWT) based on the given sensor.
+   *
+   * @param {Sensor} sensor - The sensor object to generate the payload for.
+   * @returns {Object} - The payload object for the JWT.
+   */
   private _generateJwtPayload(sensor: Sensor) {
     return {
       sub: sensor.resourceIdentifier,
