@@ -5,19 +5,25 @@ import {
   NotFoundException,
   Param,
   Post,
+  Req,
   UseGuards,
+  Request,
+  ForbiddenException,
 } from '@nestjs/common';
 import { SensorService } from '../sensor/sensor.service';
 import { SensorReadingService } from './sensor-reading.service';
 import { SensorReadingDto } from './dtos/sensor-reading.dto';
 import { CreateSensorReadingDto } from './dtos/create-sensor-reading.dto';
 import { AuthenticatedGuard } from '../auth/guards/authenticated/authenticated.guard';
+import { CaslAbilityFactory } from '../casl/casl-ability.factory/casl-ability.factory';
+import { SensorAction } from '../casl/enums/action.enum';
 
 @Controller('sensors')
 export class SensorReadingController {
   constructor(
     private readonly _sensorService: SensorService,
     private readonly _readingService: SensorReadingService,
+    private readonly _abilityFactory: CaslAbilityFactory,
   ) {}
 
   /**
@@ -55,6 +61,7 @@ export class SensorReadingController {
   public async createAsync(
     @Param() params: { sensorId: string },
     @Body() data: CreateSensorReadingDto,
+    @Req() request: Request,
   ): Promise<SensorReadingDto> {
     if (!('sensorId' in params)) {
       throw new NotFoundException();
@@ -63,6 +70,13 @@ export class SensorReadingController {
     const sensor = await this._sensorService.fetchByIdentifier(params.sensorId);
     if (!sensor) {
       throw new NotFoundException();
+    }
+
+    const abilities = await this._abilityFactory.createForAuthPayload(
+      request['authSubject'],
+    );
+    if (abilities.cannot(SensorAction.CreateReading, sensor)) {
+      throw new ForbiddenException();
     }
 
     const reading = await this._readingService.createForSensor(sensor, data);

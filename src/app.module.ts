@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ResourceIdentifiersModule } from './core/resource-identifiers/resource-identifiers.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { SensorReadingModule } from './modules/sensor-reading/sensor-reading.module';
+import { CaslModule } from './modules/casl/casl.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { SensorReadingModule } from './modules/sensor-reading/sensor-reading.mod
     SensorModule,
     AuthModule,
     SensorReadingModule,
+    CaslModule,
   ],
   controllers: [AppController],
   providers: [AppService],

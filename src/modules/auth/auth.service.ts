@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { Sensor } from '../sensor/sensor.model';
 import { JwtService } from '@nestjs/jwt';
@@ -50,6 +46,7 @@ export class AuthService {
 
     const payload: JwtPayloadDto = {
       sub: sensor.resourceIdentifier,
+      subType: Sensor.name,
       iat: Date.now(),
     };
 
