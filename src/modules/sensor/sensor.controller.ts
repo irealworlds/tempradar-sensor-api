@@ -15,6 +15,7 @@ import { PaginatedResultDto } from '@app/core/pagination/paginated-result.dto';
 import { CheckPolicies } from '@app/core/authorization/check-policies.decorator';
 import { AuthenticatedGuard } from '@app/core/auth/authenticated.guard';
 import { CanReadSensors } from '@app/core/authorization/policies/sensor/can-read-sensors.policy';
+import { ApiBearerAuth, ApiSecurity } from '@nestjs/swagger';
 
 @Controller('sensors')
 export class SensorController {
@@ -23,6 +24,8 @@ export class SensorController {
   @Get()
   @UseGuards(AuthenticatedGuard)
   @CheckPolicies(CanReadSensors)
+  @ApiBearerAuth()
+  @ApiSecurity('api-key')
   public async index(
     @Query() pagination?: PaginationOptionsDto,
   ): Promise<PaginatedResultDto<SensorDto>> {

@@ -7,10 +7,10 @@ import {
   Post,
   Req,
   UseGuards,
-  Request,
   ForbiddenException,
   Query,
   HttpCode,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { SensorService } from '@app/modules/sensor/sensor.service';
 import { SensorReadingService } from '@app/modules/sensor-reading/sensor-reading.service';
@@ -23,6 +23,9 @@ import { CheckPolicies } from '@app/core/authorization/check-policies.decorator'
 import { AuthenticatedGuard } from '@app/core/auth/authenticated.guard';
 import { PaginationOptionsDto } from '@app/core/pagination/pagination-options.dto';
 import { PaginatedResultDto } from '@app/core/pagination/paginated-result.dto';
+import { ApiBearerAuth, ApiParam, ApiSecurity } from '@nestjs/swagger';
+import { AuthService } from '@app/core/auth/auth.service';
+import { Request } from 'express';
 
 @Controller('sensors')
 export class SensorReadingController {
@@ -30,6 +33,7 @@ export class SensorReadingController {
     private readonly _sensorService: SensorService,
     private readonly _readingService: SensorReadingService,
     private readonly _abilityFactory: CaslAbilityFactory,
+    private readonly _authService: AuthService,
   ) {}
 
   /**
@@ -46,6 +50,13 @@ export class SensorReadingController {
   @Get(':sensorId/readings')
   @UseGuards(AuthenticatedGuard)
   @CheckPolicies(CanReadSensorReadings)
+  @ApiBearerAuth()
+  @ApiSecurity('api-key')
+  @ApiParam({
+    name: 'sensorId',
+    required: true,
+    type: String,
+  })
   public async indexAsync(
     @Param() params: { sensorId: string },
     @Query() pagination?: PaginationOptionsDto,
@@ -82,6 +93,13 @@ export class SensorReadingController {
   @UseGuards(AuthenticatedGuard)
   @Post(':sensorId/readings')
   @HttpCode(201)
+  @ApiBearerAuth()
+  @ApiSecurity('api-key')
+  @ApiParam({
+    name: 'sensorId',
+    required: true,
+    type: String,
+  })
   public async createAsync(
     @Param() params: { sensorId: string },
     @Body() data: CreateSensorReadingDto,
@@ -96,9 +114,12 @@ export class SensorReadingController {
       throw new NotFoundException();
     }
 
-    const { authSubject } = request as any;
+    const authSubject = await this._authService.extractSubjectFromJwt(request);
+    if (!authSubject) {
+      throw new UnauthorizedException();
+    }
     const abilities =
-      await this._abilityFactory.createForJwtAuthPayload(authSubject);
+      await this._abilityFactory.createForAuthSubject(authSubject);
     if (abilities.cannot(SensorAction.CreateReading, sensor)) {
       throw new ForbiddenException();
     }

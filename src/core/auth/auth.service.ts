@@ -29,8 +29,8 @@ export class AuthService {
     request: Request,
   ): Promise<(SensorDocument | ApiConsumerDocument)[]> {
     return [
-      await this._extractSubjectFromJwt(request),
-      await this._extractSubjectFromApiKey(request),
+      await this.extractSubjectFromJwt(request),
+      await this.extractSubjectFromApiKey(request),
     ].filter((subject) => !!subject);
   }
 
@@ -39,7 +39,7 @@ export class AuthService {
    * @param {Request} request - The request object containing the API key.
    * @returns {Promise<ApiConsumerDocument>} The API consumer corresponding to the API key, if found.
    */
-  private async _extractSubjectFromApiKey(
+  async extractSubjectFromApiKey(
     request: Request,
   ): Promise<ApiConsumerDocument | undefined> {
     if (apiKeyOptions.headerName in request.headers) {
@@ -58,7 +58,7 @@ export class AuthService {
    * @param {Request} request - The request object containing the JWT token.
    * @return {Promise<TJwtAuthSubject>} A promise that resolves with the extracted subject from the JWT token.
    */
-  private async _extractSubjectFromJwt(
+  async extractSubjectFromJwt(
     request: Request,
   ): Promise<TJwtAuthSubject | undefined> {
     const jwtExtractor = ExtractJwt.fromAuthHeaderAsBearerToken();

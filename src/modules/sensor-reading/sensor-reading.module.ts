@@ -9,6 +9,7 @@ import {
 } from '@app/modules/sensor-reading/models/sensor-reading.model';
 import { ResourceIdentifiersModule } from '@app/core/resource-identifiers/resource-identifiers.module';
 import { CaslModule } from '@app/core/casl/casl.module';
+import { AuthModule } from '@app/core/auth/auth.module';
 
 @Module({
   controllers: [SensorReadingController],
@@ -17,6 +18,7 @@ import { CaslModule } from '@app/core/casl/casl.module';
     MongooseModule.forFeature([
       { name: SensorReading.name, schema: SensorReadingSchema },
     ]),
+    AuthModule,
     CaslModule,
     ResourceIdentifiersModule,
     SensorModule,
