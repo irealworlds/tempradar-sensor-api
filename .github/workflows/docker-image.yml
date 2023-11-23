@@ -14,5 +14,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    
+    - name: Log into DockerHub
+      env:
+        DOCKER_USER: ${{ secrets.docker_user }}
+        DOCKER_PASSWORD: ${{ secrets.docker_password }}
+      run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag tempradar-sensor-api:$(date +%s)
+      run: docker build . --file Dockerfile --tag irealworlds/tempradar-sensor-api:$(date +%s)
+
+    - name: Push to Dockerhub
+      run: docker push ${{secrets.docker_user}}/tempradar-sensor-api
