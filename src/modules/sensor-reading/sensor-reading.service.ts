@@ -10,6 +10,10 @@ import { Sensor } from '@app/modules/sensor/sensor.model';
 import { CreateSensorReadingDto } from '@app/modules/sensor-reading/dtos/create-sensor-reading.dto';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
+import { PaginatedResultDto } from '@app/core/pagination/paginated-result.dto';
+import { SensorDto } from '@app/dtos/sensor.dto';
+import { SensorReadingDto } from '@app/modules/sensor-reading/dtos/sensor-reading.dto';
+import { PaginationMetadataDto } from '@app/core/pagination/pagination-metadata.dto';
 
 @Injectable()
 export class SensorReadingService {
@@ -44,6 +48,7 @@ export class SensorReadingService {
       24 * 60 * 60 * 1000,
     );
   }
+
   /**
    * Creates a new sensor reading for the given sensor.
    *
@@ -67,5 +72,41 @@ export class SensorReadingService {
       `sensor_readings_${sensor.resourceIdentifier}`,
     );
     return reading.save();
+  }
+
+  /**
+   * Fetches paginated sensor readings for a given sensor.
+   *
+   * @param {Sensor} sensor - The sensor for which to fetch the readings.
+   * @param {number} [skip] - Optional. The number of readings to skip.
+   * @param {number} [limit] - Optional. The maximum number of readings to fetch.
+   * @returns {Promise<PaginatedResultDto<SensorReadingDto>>} - A promise that resolves to a paginated result containing the sensor readings.
+   */
+  public async fetchAllForSensorPaginated(
+    sensor: Sensor,
+    skip?: number,
+    limit?: number,
+  ): Promise<PaginatedResultDto<SensorReadingDto>> {
+    let query = this._readingModel
+      .find({
+        sensor,
+      })
+      .sort({
+        createdAt: -1,
+      })
+      .skip(skip ?? 0);
+
+    if (limit) {
+      query = query.limit(limit);
+    }
+
+    const items = await query.exec();
+
+    return new PaginatedResultDto({
+      items: items.map((item) => SensorReadingDto.fromSensorReading(item)),
+      _metadata: new PaginationMetadataDto({
+        total: await this._readingModel.countDocuments().exec(),
+      }),
+    });
   }
 }

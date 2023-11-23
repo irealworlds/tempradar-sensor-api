@@ -5,6 +5,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { SensorCreateDto } from '@app/dtos/sensor-create.dto';
 import { ResourceIdentifierService } from '@app/core/resource-identifiers/resource-identifier.service';
 import * as bcrypt from 'bcrypt';
+import { PaginatedResultDto } from '@app/core/pagination/paginated-result.dto';
+import { PaginationMetadataDto } from '@app/core/pagination/pagination-metadata.dto';
+import { SensorDto } from '@app/dtos/sensor.dto';
 
 @Injectable()
 export class SensorService {
@@ -25,6 +28,38 @@ export class SensorService {
         createdAt: -1,
       })
       .exec();
+  }
+  /**
+   * Fetches all items in a paginated manner.
+   *
+   * @param {number} [skip] - The number of items to skip.
+   * @param {number} [limit] - The maximum number of items to return per page.
+   * @returns {Promise<PaginatedResultDto<SensorDocument>>} - A promise that resolves to a PaginatedResultDto containing the fetched items and pagination metadata.
+   *
+   */
+  async fetchAllPaginated(
+    skip?: number,
+    limit?: number,
+  ): Promise<PaginatedResultDto<SensorDto>> {
+    let query = this._sensorModel
+      .find()
+      .sort({
+        createdAt: -1,
+      })
+      .skip(skip ?? 0);
+
+    if (limit) {
+      query = query.limit(limit);
+    }
+
+    const items = await query.exec();
+
+    return new PaginatedResultDto({
+      items: items.map((item) => SensorDto.fromSensorModel(item)),
+      _metadata: new PaginationMetadataDto({
+        total: await this._sensorModel.countDocuments().exec(),
+      }),
+    });
   }
 
   /**

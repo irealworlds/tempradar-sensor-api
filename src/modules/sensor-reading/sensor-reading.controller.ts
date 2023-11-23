@@ -9,6 +9,7 @@ import {
   UseGuards,
   Request,
   ForbiddenException,
+  Query,
 } from '@nestjs/common';
 import { SensorService } from '@app/modules/sensor/sensor.service';
 import { SensorReadingService } from '@app/modules/sensor-reading/sensor-reading.service';
@@ -19,6 +20,8 @@ import { SensorAction } from '@app/core/casl/enums/action.enum';
 import { CanReadSensorReadings } from '@app/core/authorization/policies/sensor-reading/can-read-sensor-readings.policy';
 import { CheckPolicies } from '@app/core/authorization/check-policies.decorator';
 import { AuthenticatedGuard } from '@app/core/auth/authenticated.guard';
+import { PaginationOptionsDto } from '@app/core/pagination/pagination-options.dto';
+import { PaginatedResultDto } from '@app/core/pagination/paginated-result.dto';
 
 @Controller('sensors')
 export class SensorReadingController {
@@ -32,6 +35,7 @@ export class SensorReadingController {
    * Fetches all sensor readings for a given sensor identifier.
    *
    * @param {Object} params - The parameter object containing the sensor identifier.
+   * @param pagination
    * @param {string} params.sensorId - The identifier of the sensor.
    *
    * @returns {Promise<SensorReadingDto[]>} - A promise that resolves to an array of SensorReadingDto objects.
@@ -43,7 +47,8 @@ export class SensorReadingController {
   @CheckPolicies(CanReadSensorReadings)
   public async indexAsync(
     @Param() params: { sensorId: string },
-  ): Promise<SensorReadingDto[]> {
+    @Query() pagination?: PaginationOptionsDto,
+  ): Promise<PaginatedResultDto<SensorReadingDto>> {
     if (!('sensorId' in params)) {
       throw new NotFoundException();
     }
@@ -53,10 +58,10 @@ export class SensorReadingController {
       throw new NotFoundException();
     }
 
-    const readings = await this._readingService.fetchAllForSensor(sensor);
-
-    return readings.map((reading) =>
-      SensorReadingDto.fromSensorReading(reading),
+    return await this._readingService.fetchAllForSensorPaginated(
+      sensor,
+      pagination.skip,
+      pagination.limit ?? 10,
     );
   }
 
