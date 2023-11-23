@@ -74,4 +74,18 @@ export class SensorService {
     });
     return sensor.save();
   }
+
+  /**
+   * Validates the authentication of a sensor using a password.
+   *
+   * @param {Sensor} sensor - The sensor object containing the password hash.
+   * @param {string} password - The password to validate.
+   * @returns {Promise<boolean>} - A promise that resolves to true if the authentication is successful, otherwise false.
+   */
+  async validateAuthentication(
+    sensor: Sensor,
+    password: string,
+  ): Promise<boolean> {
+    return await bcrypt.compare(password, sensor.passwordHash);
+  }
 }

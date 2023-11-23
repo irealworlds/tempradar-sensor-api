@@ -1,6 +1,6 @@
 import { AuthenticatedGuard } from './authenticated.guard';
 
-describe('AuthenticatedGuard', () => {
+describe('AuthGuard', () => {
   it('should be defined', () => {
     expect(new AuthenticatedGuard()).toBeDefined();
   });

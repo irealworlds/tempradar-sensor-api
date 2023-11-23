@@ -1,19 +1,13 @@
-import {
-  Body,
-  Controller,
-  NotFoundException,
-  Post,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Body, Controller, NotFoundException, Post } from '@nestjs/common';
 import { AuthSessionsCreateDto } from './dtos/auth-sessions-create.dto';
 import { SensorService } from '../sensor/sensor.service';
-import { AuthService } from './auth.service';
+import { JwtAuthService } from '../../core/auth/jwt/services/jwt-auth.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly _sensorService: SensorService,
-    private readonly _authService: AuthService,
+    private readonly _authService: JwtAuthService,
   ) {}
 
   /**
@@ -31,6 +25,6 @@ export class AuthController {
       throw new NotFoundException();
     }
 
-    return this._authService.signInForSensor(sensor, data.password);
+    return this._authService.createAuthSessionForSensor(sensor, data.password);
   }
 }

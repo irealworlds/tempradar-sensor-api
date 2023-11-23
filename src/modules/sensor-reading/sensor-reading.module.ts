@@ -8,7 +8,7 @@ import {
   SensorReadingSchema,
 } from './models/sensor-reading.model';
 import { ResourceIdentifiersModule } from '../../core/resource-identifiers/resource-identifiers.module';
-import { CaslModule } from '../casl/casl.module';
+import { CaslModule } from '../../core/casl/casl.module';
 
 @Module({
   controllers: [SensorReadingController],

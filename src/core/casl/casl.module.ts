@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { CaslAbilityFactory } from './casl-ability.factory/casl-ability.factory';
-import { SensorModule } from '../sensor/sensor.module';
+import { CaslAbilityFactory } from './casl-ability.factory';
+import { SensorModule } from '../../modules/sensor/sensor.module';
 
 @Module({
   imports: [SensorModule],
