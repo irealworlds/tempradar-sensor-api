@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { Sensor } from './sensor.model';
+import { Sensor, SensorDocument } from './sensor.model';
 import { InjectModel } from '@nestjs/mongoose';
 import { SensorCreateDto } from '../../dtos/sensor-create.dto';
 import { ResourceIdentifierService } from '../../core/resource-identifiers/resource-identifier.service';
@@ -16,9 +16,9 @@ export class SensorService {
   /**
    * Fetch all sensor data.
    *
-   * @returns {Promise<Sensor[]>} - A promise that resolves to an array of Sensor objects.
+   * @returns {Promise<SensorDocument[]>} - A promise that resolves to an array of Sensor objects.
    */
-  async fetchAll(): Promise<Sensor[]> {
+  async fetchAll(): Promise<SensorDocument[]> {
     return this._sensorModel
       .find()
       .sort({
@@ -31,9 +31,9 @@ export class SensorService {
    * Fetches a sensor by its MAC address.
    *
    * @param {string} macAddress - The MAC address of the sensor.
-   * @return {Promise<Sensor>} - Resolves with the found sensor, or undefined if no sensor exists with the given MAC address.
+   * @return {Promise<SensorDocument>} - Resolves with the found sensor, or undefined if no sensor exists with the given MAC address.
    */
-  async fetchByMacAddress(macAddress: string): Promise<Sensor> {
+  async fetchByMacAddress(macAddress: string): Promise<SensorDocument> {
     return await this._sensorModel
       .findOne({
         macAddress,
@@ -45,9 +45,9 @@ export class SensorService {
    * Fetches a sensor by its MAC address.
    *
    * @param {string} resourceIdentifier - The sensor's resource identifier.
-   * @return {Promise<Sensor>} - Resolves with the found sensor, or undefined if no sensor exists with the given MAC address.
+   * @return {Promise<SensorDocument>} - Resolves with the found sensor, or undefined if no sensor exists with the given MAC address.
    */
-  async fetchByIdentifier(resourceIdentifier: string): Promise<Sensor> {
+  async fetchByIdentifier(resourceIdentifier: string): Promise<SensorDocument> {
     return await this._sensorModel
       .findOne({
         resourceIdentifier,
@@ -59,9 +59,9 @@ export class SensorService {
    * Create a new sensor.
    *
    * @param {SensorCreateDto} data - The data for creating the sensor.
-   * @returns {Promise<Sensor>} A Promise that resolves with the created sensor.
+   * @returns {Promise<SensorDocument>} A Promise that resolves with the created sensor.
    */
-  async create(data: SensorCreateDto): Promise<Sensor> {
+  async create(data: SensorCreateDto): Promise<SensorDocument> {
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(data.password, salt);
 
