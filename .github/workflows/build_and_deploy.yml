@@ -25,7 +25,11 @@ jobs:
       - name: Determine tag
         id: determine_tag
         run: |
-          echo "::set-output name=tag::${{ github.event_name == 'release' && github.event.action == 'published' && github.event.release.tag_name ? github.event.release.tag_name : 'latest' }}"
+          if [[ github.event_name == 'release' && github.event.action == 'published' && github.event.release.tag_name ]]; then
+            echo "::set-output name=tag::${{ github.event.release.tag_name }}"
+          else
+            echo "::set-output name=tag::latest"
+          fi
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v5
