@@ -27,7 +27,7 @@ jobs:
       - name: Determine tag
         id: determine_tag
         run: |
-          if [[ github.event_name == 'release' && github.event.action == 'published' && github.event.release.tag_name ]]; then
+          if [ -n github.event.release.tag_name ]; then
             echo "tag=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
           else
             echo "tag=latest" >> $GITHUB_OUTPUT
