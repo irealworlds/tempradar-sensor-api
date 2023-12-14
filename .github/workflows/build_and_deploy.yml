@@ -29,8 +29,10 @@ jobs:
         run: |
           if [ -n github.event.release.tag_name ]; then
             echo "tag=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
+            echo "Using tag: ${{ github.event.release.tag_name }}"
           else
             echo "tag=latest" >> $GITHUB_OUTPUT
+            echo "Using tag: latest"
           fi
       - name: Build and push
         id: docker_build
