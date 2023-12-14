@@ -27,7 +27,7 @@ jobs:
       - name: Determine tag
         id: determine_tag
         run: |
-          if [ -n github.event.release.tag_name ]; then
+          if [ -n "${{ github.event.release.tag_name }}" ]; then
             echo "tag=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
             echo "Using tag: ${{ github.event.release.tag_name }}"
           else
