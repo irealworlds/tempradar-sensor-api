@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ResourceIdentifierService } from '@app/core/resource-identifiers/resource-identifier.service';
@@ -8,20 +8,15 @@ import {
 } from '@app/modules/sensor-reading/models/sensor-reading.model';
 import { Sensor } from '@app/modules/sensor/sensor.model';
 import { CreateSensorReadingDto } from '@app/modules/sensor-reading/dtos/create-sensor-reading.dto';
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Cache } from 'cache-manager';
 import { PaginatedResultDto } from '@app/core/pagination/paginated-result.dto';
 import { SensorReadingDto } from '@app/modules/sensor-reading/dtos/sensor-reading.dto';
 import { PaginationMetadataDto } from '@app/core/pagination/pagination-metadata.dto';
 
 @Injectable()
 export class SensorReadingService {
-  private readonly _logger = new Logger(SensorReadingService.name);
-
   constructor(
     @InjectModel(SensorReading.name)
     private readonly _readingModel: Model<SensorReading>,
-    @Inject(CACHE_MANAGER) private readonly _cacheManager: Cache,
     private readonly _resourceIdentifierService: ResourceIdentifierService,
   ) {}
 
@@ -34,20 +29,14 @@ export class SensorReadingService {
   public async fetchAllForSensor(
     sensor: Sensor,
   ): Promise<SensorReadingDocument[]> {
-    return await this._cacheManager.wrap(
-      `sensor_readings_${sensor.resourceIdentifier}`,
-      async () => {
-        return await this._readingModel
-          .find({
-            sensor,
-          })
-          .sort({
-            createdAt: -1,
-          })
-          .exec();
-      },
-      24 * 60 * 60 * 1000,
-    );
+    return await this._readingModel
+      .find({
+        sensor,
+      })
+      .sort({
+        createdAt: -1,
+      })
+      .exec();
   }
 
   /**
@@ -69,13 +58,7 @@ export class SensorReadingService {
       resourceIdentifier:
         this._resourceIdentifierService.generateUniqueId('reading'),
     });
-    this._logger.log('Creating reading: ' + JSON.stringify(reading));
-    await this._cacheManager.del(
-      `sensor_readings_${sensor.resourceIdentifier}`,
-    );
-    const result = reading.save();
-    this._logger.log('Created reading: ' + JSON.stringify(result));
-    return result;
+    return reading.save();
   }
 
   /**
