@@ -67,10 +67,13 @@ export class SensorReadingService {
       resourceIdentifier:
         this._resourceIdentifierService.generateUniqueId('reading'),
     });
+    console.log(reading);
     await this._cacheManager.del(
       `sensor_readings_${sensor.resourceIdentifier}`,
     );
-    return reading.save();
+    const result = reading.save();
+    console.log(result);
+    return result;
   }
 
   /**
