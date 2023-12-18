@@ -18,7 +18,7 @@ export class Sensor implements IRoutableResource {
   @Prop({ required: true })
   passwordHash: string;
 
-  @Prop({ default: Date.now })
+  @Prop({ default: () => new Date() })
   createdAt: Date;
 }
 

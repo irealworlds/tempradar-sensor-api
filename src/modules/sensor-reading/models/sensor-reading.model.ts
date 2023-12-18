@@ -24,7 +24,7 @@ export class SensorReading {
   @Prop()
   airQuality?: number;
 
-  @Prop({ default: Date.now })
+  @Prop({ default: () => new Date() })
   createdAt: Date;
 }
 
