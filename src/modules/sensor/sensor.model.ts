@@ -17,9 +17,6 @@ export class Sensor implements IRoutableResource {
 
   @Prop({ required: true })
   passwordHash: string;
-
-  @Prop({ default: Date.now })
-  createdAt: Date;
 }
 
 export const SensorSchema = SchemaFactory.createForClass(Sensor);

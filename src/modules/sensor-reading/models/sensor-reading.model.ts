@@ -7,8 +7,6 @@ export type SensorReadingDocument = HydratedDocument<SensorReading>;
 
 @Schema()
 export class SensorReading {
-  public readonly _id: Types.ObjectId;
-
   @Prop({ required: true, unique: true })
   resourceIdentifier: string;
 
@@ -23,9 +21,6 @@ export class SensorReading {
 
   @Prop()
   airQuality?: number;
-
-  @Prop({ default: Date.now })
-  createdAt: Date;
 }
 
 export const SensorReadingSchema = SchemaFactory.createForClass(SensorReading);
