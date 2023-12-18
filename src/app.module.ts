@@ -12,7 +12,6 @@ import { AuthSessionModule } from '@app/modules/auth-session/auth-session.module
 import { PoliciesGuard } from '@app/core/authorization/guards/policies.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { CacheModule } from '@nestjs/cache-manager';
-import { DiagnoseModule } from './modules/diagnose/diagnose.module';
 
 @Module({
   imports: [
@@ -27,7 +26,6 @@ import { DiagnoseModule } from './modules/diagnose/diagnose.module';
     SensorModule,
     SensorReadingModule,
     AuthSessionModule,
-    DiagnoseModule,
   ],
   controllers: [AppController],
   providers: [
