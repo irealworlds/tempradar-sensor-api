@@ -66,7 +66,6 @@ export class SensorReadingService {
       humidity: data.humidity,
       resourceIdentifier:
         this._resourceIdentifierService.generateUniqueId('reading'),
-      createdAt: new Date(),
     });
     await this._cacheManager.del(
       `sensor_readings_${sensor.resourceIdentifier}`,

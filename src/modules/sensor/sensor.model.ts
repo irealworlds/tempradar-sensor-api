@@ -4,7 +4,12 @@ import { IRoutableResource } from '@app/core/resource-identifiers/routable-resou
 
 export type SensorDocument = HydratedDocument<Sensor>;
 
-@Schema()
+@Schema({
+  timestamps: {
+    createdAt: true,
+    updatedAt: false,
+  },
+})
 export class Sensor implements IRoutableResource {
   @Prop({ required: true, unique: true })
   resourceIdentifier: string;
@@ -17,9 +22,6 @@ export class Sensor implements IRoutableResource {
 
   @Prop({ required: true })
   passwordHash: string;
-
-  @Prop({ default: () => new Date() })
-  createdAt: Date;
 }
 
 export const SensorSchema = SchemaFactory.createForClass(Sensor);

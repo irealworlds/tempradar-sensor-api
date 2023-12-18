@@ -5,7 +5,12 @@ import { Sensor } from '@app/modules/sensor/sensor.model';
 
 export type SensorReadingDocument = HydratedDocument<SensorReading>;
 
-@Schema()
+@Schema({
+  timestamps: {
+    createdAt: true,
+    updatedAt: false,
+  },
+})
 export class SensorReading {
   public readonly _id: Types.ObjectId;
 
@@ -23,9 +28,6 @@ export class SensorReading {
 
   @Prop()
   airQuality?: number;
-
-  @Prop({ default: () => new Date() })
-  createdAt: Date;
 }
 
 export const SensorReadingSchema = SchemaFactory.createForClass(SensorReading);
