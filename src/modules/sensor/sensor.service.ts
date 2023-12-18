@@ -106,6 +106,7 @@ export class SensorService {
       passwordHash: passwordHash,
       resourceIdentifier:
         this._resourceIdentifierService.generateUniqueId('sensor'),
+      createdAt: new Date(),
     });
     return sensor.save();
   }

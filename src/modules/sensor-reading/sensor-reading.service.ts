@@ -11,7 +11,6 @@ import { CreateSensorReadingDto } from '@app/modules/sensor-reading/dtos/create-
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { PaginatedResultDto } from '@app/core/pagination/paginated-result.dto';
-import { SensorDto } from '@app/dtos/sensor.dto';
 import { SensorReadingDto } from '@app/modules/sensor-reading/dtos/sensor-reading.dto';
 import { PaginationMetadataDto } from '@app/core/pagination/pagination-metadata.dto';
 
@@ -67,6 +66,7 @@ export class SensorReadingService {
       humidity: data.humidity,
       resourceIdentifier:
         this._resourceIdentifierService.generateUniqueId('reading'),
+      createdAt: new Date(),
     });
     await this._cacheManager.del(
       `sensor_readings_${sensor.resourceIdentifier}`,
