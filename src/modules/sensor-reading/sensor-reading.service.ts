@@ -79,7 +79,7 @@ export class SensorReadingService {
         sensor,
       })
       .sort({
-        createdAt: -1,
+        _id: -1,
       })
       .skip(skip ?? 0);
 

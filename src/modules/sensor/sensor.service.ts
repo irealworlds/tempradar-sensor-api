@@ -25,7 +25,7 @@ export class SensorService {
     return this._sensorModel
       .find()
       .sort({
-        createdAt: -1,
+        _id: -1,
       })
       .exec();
   }
