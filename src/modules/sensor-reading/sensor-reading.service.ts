@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ResourceIdentifierService } from '@app/core/resource-identifiers/resource-identifier.service';
@@ -16,6 +16,8 @@ import { PaginationMetadataDto } from '@app/core/pagination/pagination-metadata.
 
 @Injectable()
 export class SensorReadingService {
+  private readonly _logger = new Logger(SensorReadingService.name);
+
   constructor(
     @InjectModel(SensorReading.name)
     private readonly _readingModel: Model<SensorReading>,
@@ -67,12 +69,12 @@ export class SensorReadingService {
       resourceIdentifier:
         this._resourceIdentifierService.generateUniqueId('reading'),
     });
-    console.log(reading);
+    this._logger.log('Creating reading: ' + JSON.stringify(reading));
     await this._cacheManager.del(
       `sensor_readings_${sensor.resourceIdentifier}`,
     );
     const result = reading.save();
-    console.log(result);
+    this._logger.log('Created reading: ' + JSON.stringify(result));
     return result;
   }
 
