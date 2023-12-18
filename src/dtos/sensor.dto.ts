@@ -4,7 +4,7 @@ export class SensorDto {
   resourceIdentifier: string;
   name: string;
   macAddress: string;
-  createdAt: Date = new Date();
+  createdAt: Date = new Date(Date.now());
 
   /**
    * Converts a Sensor model object to a SensorDto object.

@@ -24,8 +24,8 @@ export class SensorReading {
   @Prop()
   airQuality?: number;
 
-  @Prop({ default: new Date() })
-  createdAt: Date = new Date();
+  @Prop({ default: Date.now })
+  createdAt: Date;
 }
 
 export const SensorReadingSchema = SchemaFactory.createForClass(SensorReading);
